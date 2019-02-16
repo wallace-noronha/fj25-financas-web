@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.caelum.financas.dao.ContaDao;
+import br.com.caelum.financas.dao.MovimentacaoDao;
 import br.com.caelum.financas.modelo.Conta;
 
 @Named
@@ -18,6 +19,8 @@ public class ContasBean implements Serializable {
 
     @Inject
     private ContaDao contaDao;
+    @Inject
+    private MovimentacaoDao movimentacaoDao;
     
 	private Conta conta = new Conta();
 	private List<Conta> contas;
@@ -54,6 +57,7 @@ public class ContasBean implements Serializable {
 
 	public void remove() {
 		contaDao.busca(this.conta.getId());
+		
 		contaDao.remove(this.conta);
 		this.contas = contaDao.lista();
 		
