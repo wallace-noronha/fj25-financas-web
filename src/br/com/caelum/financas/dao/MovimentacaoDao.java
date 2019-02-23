@@ -1,12 +1,13 @@
 package br.com.caelum.financas.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import br.com.caelum.financas.modelo.Conta;
+import br.com.caelum.financas.exception.ValorInvalidoException;
 import br.com.caelum.financas.modelo.Movimentacao;
 @Stateless
 public class MovimentacaoDao {
@@ -15,6 +16,10 @@ public class MovimentacaoDao {
 
 	public void adiciona(Movimentacao movimentacao) {
 		this.manager.persist(movimentacao);
+		
+		if(movimentacao.getValor().compareTo(BigDecimal.ZERO)< 0) {
+			throw new ValorInvalidoException("Movimentacao negativa");
+		}
 	}
 
 	public Movimentacao busca(Integer id) {
