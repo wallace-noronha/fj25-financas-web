@@ -8,8 +8,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.caelum.financas.dao.ContaDao;
+import br.com.caelum.financas.dao.GerenteDao;
 import br.com.caelum.financas.dao.MovimentacaoDao;
 import br.com.caelum.financas.modelo.Conta;
+import br.com.caelum.financas.modelo.GerenteConta;
 
 @Named
 @ViewScoped
@@ -21,10 +23,28 @@ public class ContasBean implements Serializable {
     private ContaDao contaDao;
     @Inject
     private MovimentacaoDao movimentacaoDao;
-    
+    @Inject
+    private GerenteDao gerenteDao;
 	private Conta conta = new Conta();
 	private List<Conta> contas;
+	private Integer gerenteId;
 
+	public GerenteDao getGerenteDao() {
+		return gerenteDao;
+	}
+
+	public void setGerenteDao(GerenteDao gerenteDao) {
+		this.gerenteDao = gerenteDao;
+	}
+
+	public Integer getGerenteId() {
+		return gerenteId;
+	}
+
+	public void setGerenteId(Integer gerenteId) {
+		this.gerenteId = gerenteId;
+	}
+	
 	public Conta getConta() {
 		return conta;
 	}
@@ -34,6 +54,15 @@ public class ContasBean implements Serializable {
 	}
 
 	public void grava() {
+//		if(gerenteId != null) {
+//			Gerente gerenteRelacionamento = gerenteDao.busca(gerenteId);
+//			this.conta.setGerente(gerenteRelacionamento);
+//		}
+		if(gerenteId != null) {
+			GerenteConta gerenteRelacionado = gerenteDao.busca(gerenteId);
+			gerenteRelacionado.setNumeroDaConta(this.conta.getNumero());
+			this.conta.setGerente(gerenteRelacionado);
+		}
 		if(this.conta.getId() == null) {
 			contaDao.adiciona(conta);
 		}else {
@@ -72,6 +101,7 @@ public class ContasBean implements Serializable {
 	 */
 	private void limpaFormularioDoJSF() {
 		this.conta = new Conta();
+		gerenteId = null;
 	}
 	
 }
