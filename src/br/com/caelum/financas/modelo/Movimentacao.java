@@ -15,6 +15,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.envers.Audited;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+
+@Indexed
+@Audited
 @Entity
 @Cacheable
 public class Movimentacao {
@@ -22,6 +28,7 @@ public class Movimentacao {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+	@Field
 	private String descricao;
 	private LocalDateTime data;
 	private BigDecimal valor;

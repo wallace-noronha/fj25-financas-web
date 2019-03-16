@@ -19,9 +19,11 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.envers.Audited;
 
 import br.com.caelum.financas.validator.NumeroEAgencia;
 
+@Audited
 @Table(uniqueConstraints= {@UniqueConstraint(columnNames= {"agencia","numero"})})
 @NumeroEAgencia
 @Entity
